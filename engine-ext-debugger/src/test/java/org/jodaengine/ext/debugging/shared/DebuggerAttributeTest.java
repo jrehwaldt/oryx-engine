@@ -4,7 +4,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
+import org.jodaengine.ext.debugging.util.DebuggerAttributeKeyProvider;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.mockito.ArgumentCaptor;
 import org.testng.Assert;
@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public class DefinitionAttributeTest {
+public class DebuggerAttributeTest {
     
     /**
      * Tests the enabling of debugging for a {@link ProcessDefinition}.
@@ -54,7 +54,7 @@ public class DefinitionAttributeTest {
         
         ArgumentCaptor<DebuggerAttribute> attributeCap = ArgumentCaptor.forClass(DebuggerAttribute.class);
         
-        verify(definition).setAttribute(eq(AttributeKeyProvider.getAttributeKey()), attributeCap.capture());
+        verify(definition).setAttribute(eq(DebuggerAttributeKeyProvider.getAttributeKey()), attributeCap.capture());
         Assert.assertNotNull(attributeCap.getValue());
         Assert.assertEquals(attributeCap.getValue(), attribute);
     }

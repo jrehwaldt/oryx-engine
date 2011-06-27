@@ -1,7 +1,7 @@
 package org.jodaengine.process.token;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.exception.JodaEngineRuntimeException;
 import org.jodaengine.exception.NoValidPathException;
+import org.jodaengine.ext.listener.JoinListener;
+import org.jodaengine.ext.listener.SplitListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -110,15 +112,26 @@ public class BpmnToken extends AbstractToken {
      */
     private void completeExecution()
     throws NoValidPathException {
-
+        
         changeActivityState(ActivityState.COMPLETED);
-
-        List<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getJoinedTokens());
-
+        
+        Collection<Token> splittedTokens = getCurrentNode().getOutgoingBehaviour().split(getJoinedTokens());
+        
+        //
+        // split performed, so tell it all our listeners
+        //
+        for (SplitListener listener: this.splitListener) {
+            try {
+                listener.splitPerformed(this, this.currentNode, getJoinedTokens(), splittedTokens);
+            } catch (Exception e) {
+                this.logger.warn("Execution of split listener " + listener.toString() + " failed", e);
+            }
+        }
+        
         for (Token token : splittedTokens) {
             navigator.addWorkToken(token);
         }
-
+        
         joinedTokens = null;
         internalVariables = null;
     }
@@ -129,18 +142,32 @@ public class BpmnToken extends AbstractToken {
 
         changeActivityState(ActivityState.READY);
         
-        if (instance.isCancelled()) {
+        if (this.instance.isCancelled()) {
             // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
             // currently in execution might have created new tokens during split that were added to the instance.
-            instance.getAssignedTokens().clear();
+            this.instance.getAssignedTokens().clear();
             return;
         }
         try {
-
-            joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);
-
+            
+            this.joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);
+            
             // only execute any activity behaviour, if the join produced tokens.
-            if (joinedTokens.size() > 0) {
+            if (!joinedTokens.isEmpty()) {
+                //
+                // join performed, so tell it all our listeners
+                //
+                for (JoinListener listener: this.joinListener) {
+                    //
+                    // TODO change this to be a list of ALL incoming tokens instead only the last one
+                    //
+                    try {
+                        listener.joinPerformed(this, this.currentNode, this.joinedTokens);
+                    } catch (Exception e) {
+                        this.logger.warn("Execution of join listener " + listener.toString() + " failed", e);
+                    }
+                }
+                
                 changeActivityState(ActivityState.ACTIVE);
 
                 Activity currentActivityBehavior = currentNode.getActivityBehaviour();
@@ -184,41 +211,41 @@ public class BpmnToken extends AbstractToken {
     }
 
     @Override
-    public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
-
-        List<Token> tokensToNavigate = new ArrayList<Token>();
-
+    public Collection<Token> navigateTo(Collection<ControlFlow> controlFlowList) {
+        
+        Collection<Token> tokensToNavigate = new ArrayList<Token>();
+        
         //
         // zero outgoing {@link ControlFlow}s
         //
-        if (controlFlowList.size() == 0) {
-
+        if (controlFlowList.isEmpty()) {
+            
             this.exceptionHandler.processException(new NoValidPathException(), this);
-
+            
             //
             // one outgoing {@link ControlFlow}
             //
         } else if (controlFlowList.size() == 1) {
-
-            ControlFlow controlFlow = controlFlowList.get(0);
+            
+            ControlFlow controlFlow = controlFlowList.iterator().next();
             Node node = controlFlow.getDestination();
             this.setCurrentNode(node);
             this.lastTakenControlFlow = controlFlow;
             changeActivityState(ActivityState.INIT);
             tokensToNavigate.add(this);
-
+            
             //
             // multiple outgoing {@link ControlFlow}s
             //
         } else {
-
+            
             for (ControlFlow controlFlow : controlFlowList) {
                 Node node = controlFlow.getDestination();
                 Token newToken = createToken(node);
                 newToken.setLastTakenControlFlow(controlFlow);
                 tokensToNavigate.add(newToken);
             }
-
+            
             // this is needed, as the this-token would be left on the node that triggers the split.
             instance.removeToken(this);
         }

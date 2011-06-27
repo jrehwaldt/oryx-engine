@@ -70,7 +70,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         // consider the active command (it is removed!)
         // -> break or leave, if required (step over vs. resume)
         //
-        DebuggerCommand command = debuggerState.clearActiveCommand();
+        DebuggerCommand command = debuggerState.getCommand(token);
         if (command != null) {
             switch (command) {
                 case CONTINUE:
@@ -83,7 +83,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     // any following breakpoints are ignored
                     // -> leave
                     //
-                    debuggerState.setActiveCommand(DebuggerCommand.RESUME);
+                    debuggerState.setCommand(token, DebuggerCommand.RESUME);
                     return;
                 case STEP_OVER:
                     //
@@ -96,7 +96,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     //
                     // we already canceled the instance
                     //
-                    debuggerState.setActiveCommand(DebuggerCommand.TERMINATE);
+                    debuggerState.setCommand(token, DebuggerCommand.TERMINATE);
                     return;
                 default:
                     //
@@ -165,7 +165,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
             DebuggerCommand command = signal.interruptInstance();
             
             logger.info("Token {} released with command {}", token, command);
-            debuggerState.setActiveCommand(command);
+            debuggerState.setCommand(token, command);
             
             //
             // consider the command and go on

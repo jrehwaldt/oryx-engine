@@ -9,7 +9,7 @@ import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
  * @author Jan Rehwaldt
  * @since 2011-05-24
  */
-public final class AttributeKeyProvider extends DebuggerAttribute {
+public final class DebuggerAttributeKeyProvider extends DebuggerAttribute {
     private static final long serialVersionUID = 175105304724615391L;
 
     /**

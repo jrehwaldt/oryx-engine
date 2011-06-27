@@ -3,7 +3,7 @@ package org.jodaengine.node.behaviour.petri;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.NullActivity;
@@ -114,7 +114,7 @@ public class TransitionJoinTest {
       instance.createToken(node3);
       token.setCurrentNode(node2);
       
-      List<Token> newTokens = null;
+      Collection<Token> newTokens = null;
       newTokens = node2.getIncomingBehaviour().join(token);
       
       assertTrue(newTokens.size() == 1, "One token was moved, so the size should be 1.");

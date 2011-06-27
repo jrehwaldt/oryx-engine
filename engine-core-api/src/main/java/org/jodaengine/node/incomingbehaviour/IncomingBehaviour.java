@@ -1,6 +1,6 @@
 package org.jodaengine.node.incomingbehaviour;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
@@ -13,11 +13,11 @@ public interface IncomingBehaviour {
     /**
      * Join.
      * 
-     * @param instance
-     *            the instance for which the join-algorithm is invoked.
+     * @param token
+     *            the token for which the join-algorithm is invoked.
      * @return the result of the joining. Usually this list contains one or zero Tokens (Example: And-Join).
      */
-    List<Token> join(Token token);
+    Collection<Token> join(Token token);
     
     /**
      * Checks if the behaviour could perform a join.

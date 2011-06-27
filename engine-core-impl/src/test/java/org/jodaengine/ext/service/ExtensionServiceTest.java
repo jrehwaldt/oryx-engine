@@ -1,6 +1,7 @@
 package org.jodaengine.ext.service;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.RepositoryService;
@@ -293,7 +294,7 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(navigator);
         Assert.assertTrue(navigator.isRunning());
         
-        List<AbstractNavigatorListener> listeners = navigator.getListeners();
+        Collection<AbstractNavigatorListener> listeners = navigator.getListeners();
         
         //
         // check that each available listener type is registered as listener instance
@@ -328,10 +329,11 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
         Assert.assertNotNull(navigator);
         Assert.assertTrue(navigator.isRunning());
         
+        @SuppressWarnings("unchecked")
         AbstractListenable<AbstractSchedulerListener> scheduler
             = (AbstractListenable<AbstractSchedulerListener>) navigator.getScheduler();
         
-        List<AbstractSchedulerListener> listeners = scheduler.getListeners();
+        Collection<AbstractSchedulerListener> listeners = scheduler.getListeners();
         
         //
         // check that each available listener type is registered as listener instance
@@ -419,11 +421,12 @@ public class ExtensionServiceTest extends AbstractJodaEngineTest {
      * @throws IllegalStarteventException test fails
      * @throws ExtensionNotAvailableException test fails
      * @throws DefinitionNotFoundException test fails
-     * @throws DefinitionNotActivatedException 
+     * @throws DefinitionNotActivatedException test fails
      */
     @Test
     public void testTokenListenerIntegrationInNavigatorForBpmnToken()
-    throws IllegalStarteventException, ExtensionNotAvailableException, DefinitionNotFoundException, DefinitionNotActivatedException {
+    throws IllegalStarteventException, ExtensionNotAvailableException,
+           DefinitionNotFoundException, DefinitionNotActivatedException {
         
         //
         // get ExtensionService

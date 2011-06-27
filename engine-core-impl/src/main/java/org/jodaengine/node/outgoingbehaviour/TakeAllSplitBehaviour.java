@@ -1,6 +1,7 @@
 package org.jodaengine.node.outgoingbehaviour;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.process.structure.ControlFlow;
@@ -22,7 +23,7 @@ public class TakeAllSplitBehaviour implements OutgoingBehaviour {
      * @see org.jodaengine.OutgoingBehaviour.SplitBehaviour#split(java.util.List)
      */
     @Override
-    public List<Token> split(List<Token> tokens) {
+    public Collection<Token> split(Collection<Token> tokens) {
 
         if (tokens == null || tokens.size() == 0) {
             return tokens;

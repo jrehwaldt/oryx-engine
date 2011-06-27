@@ -1,6 +1,7 @@
 package org.jodaengine.node.outgoingbehaviour;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.exception.NoValidPathException;
@@ -14,18 +15,18 @@ import org.jodaengine.process.token.Token;
 public class ComplexSplitBehaviour implements OutgoingBehaviour {
 
     @Override
-    public List<Token> split(List<Token> tokens)
+    public Collection<Token> split(Collection<Token> tokens)
     throws NoValidPathException {
-
-        if (tokens.size() == 0) {
+        
+        if (tokens.isEmpty()) {
             return tokens;
         }
-
-        List<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
-        List<Token> controlFlowsToNavigate = null;
-
-        // we look through the outgoing {@link ControlFlow}s and try to find one at least, whose condition evaluates true and
-        // then return it as the to-be-taken {@link ControlFlow}
+        
+        Collection<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
+        Collection<Token> tokensToNavigate = null;
+        
+        // we look through the outgoing {@link ControlFlow}s and try to find one at least, whose condition evaluates
+        // true and then return it as the to-be-taken {@link ControlFlow}
         for (Token token : tokens) {
             Node currentNode = token.getCurrentNode();
             for (ControlFlow controlFlow : currentNode.getOutgoingControlFlows()) {
@@ -33,17 +34,15 @@ public class ComplexSplitBehaviour implements OutgoingBehaviour {
                     controlFlowList.add(controlFlow);
                 }
             }
-
-            if (controlFlowList.size() == 0) {
-
+            
+            if (controlFlowList.isEmpty()) {
                 throw new NoValidPathException();
-
             }
-
-            controlFlowsToNavigate = token.navigateTo(controlFlowList);
-
+            
+            tokensToNavigate = token.navigateTo(controlFlowList);
+            
         }
-        return controlFlowsToNavigate;
+        return tokensToNavigate;
     }
 
 }

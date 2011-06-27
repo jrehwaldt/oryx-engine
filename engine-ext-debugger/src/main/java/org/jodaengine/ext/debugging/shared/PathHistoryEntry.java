@@ -1,9 +1,8 @@
 package org.jodaengine.ext.debugging.shared;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -19,11 +18,11 @@ import org.jodaengine.process.token.Token;
  * @since 2011-06-14
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public final class PathHistoryEntry {
+public final class PathHistoryEntry implements Serializable {
+    private static final long serialVersionUID = -1922922944145687463L;
     
     private final ControlFlow path;
-    private final UUID tokenID;
-    private final UUID parentTokenID;
+    private final Token token;
     
     /**
      * Default constructor.
@@ -35,33 +34,20 @@ public final class PathHistoryEntry {
                      @Nonnull Token token) {
         
         this.path = path;
-        this.tokenID = token.getID();
-        
-        if (token.getParentToken() != null) {
-            this.parentTokenID = token.getParentToken().getID();
-        } else {
-            this.parentTokenID = null;
-        }
+        this.token = token;
     }
     
     /**
      * @return the path
      */
     public @Nonnull ControlFlow getPath() {
-        return path;
+        return this.path;
     }
     
     /**
-     * @return the token's id
+     * @return the token
      */
-    public @Nonnull UUID getTokenID() {
-        return tokenID;
-    }
-    
-    /**
-     * @return the parental token's id
-     */
-    public @Nullable UUID getParentTokenID() {
-        return parentTokenID;
+    public @Nonnull Token getToken() {
+        return this.token;
     }
 }

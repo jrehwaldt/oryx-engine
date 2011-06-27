@@ -10,7 +10,7 @@ import org.jodaengine.exception.DefinitionNotFoundException;
 import org.jodaengine.exception.ProcessArtifactNotFoundException;
 import org.jodaengine.ext.debugging.api.DebuggerService;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
-import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
+import org.jodaengine.ext.debugging.util.DebuggerAttributeKeyProvider;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.process.definition.ProcessDefinition;
 import org.jodaengine.process.definition.ProcessDefinitionID;
@@ -61,7 +61,8 @@ public class DebuggerArtifactServiceTest extends AbstractJodaEngineTest {
         
         DebuggerAttribute attribute = new DebuggerAttribute();
         attribute.setSvgArtifact(idDeployed.toString());
-        when(this.mockDefinitionDeployed.getAttribute(AttributeKeyProvider.getAttributeKey())).thenReturn(attribute);
+        when(this.mockDefinitionDeployed.getAttribute(
+            DebuggerAttributeKeyProvider.getAttributeKey())).thenReturn(attribute);
         
         //
         // we deploy our definition

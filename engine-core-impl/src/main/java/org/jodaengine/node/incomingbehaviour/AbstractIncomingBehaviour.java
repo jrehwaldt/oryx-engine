@@ -1,7 +1,7 @@
 package org.jodaengine.node.incomingbehaviour;
 
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.jodaengine.process.token.Token;
 
@@ -21,9 +21,10 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
      * #join(org.jodaengine.process.token.Token) Do not override this, as it is a template method.
      * Only join, if a join is possible.
      */
-    public List<Token> join(Token token) {
+    @Override
+    public Collection<Token> join(Token token) {
 
-        List<Token> tokens = new LinkedList<Token>();
+        Collection<Token> tokens = new LinkedList<Token>();
         
         // Are all required paths there?
         if (joinable(token, token.getCurrentNode())) {
@@ -40,9 +41,9 @@ public abstract class AbstractIncomingBehaviour implements IncomingBehaviour {
     /**
      * Perform join.
      * 
-     * @param instance
-     *            the instance that the join is triggered for.
+     * @param token
+     *            the token that the join is triggered for.
      * @return the result of the join.
      */
-    protected abstract List<Token> performJoin(Token token);
+    protected abstract Collection<Token> performJoin(Token token);
 }

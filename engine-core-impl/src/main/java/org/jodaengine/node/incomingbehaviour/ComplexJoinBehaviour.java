@@ -1,6 +1,7 @@
 package org.jodaengine.node.incomingbehaviour;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    public synchronized List<Token> join(Token token) {
+    public synchronized Collection<Token> join(Token token) {
 
         ProcessInstanceContext context = token.getInstance().getContext();
         context.setSignaledControlFlow(token.getLastTakenControlFlow());
@@ -68,7 +69,7 @@ public class ComplexJoinBehaviour extends AbstractIncomingBehaviour {
     }
 
     @Override
-    protected List<Token> performJoin(Token token) {
+    protected Collection<Token> performJoin(Token token) {
 
         List<Token> proceedingTokens = new ArrayList<Token>();
         ProcessInstanceContext context = token.getInstance().getContext();

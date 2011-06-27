@@ -8,7 +8,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertEqualsNoOrder;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.jodaengine.exception.JodaEngineException;
 import org.jodaengine.navigator.Navigator;
@@ -67,14 +68,15 @@ public class ProcessTokenImplTest {
 
         Node currentNode = token.getCurrentNode();
 
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
+        Collection<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
         assertEquals(newTokens.size(), 2, "You should have two new process tokens");
 
         Node[] currentNodes = new Node[2];
-        for (int i = 0; i < 2; i++) {
-            currentNodes[i] = newTokens.get(i).getCurrentNode();
-        }
-
+        
+        Iterator<Token> it = newTokens.iterator();
+        currentNodes[0] = it.next().getCurrentNode();
+        currentNodes[1] = it.next().getCurrentNode();
+        
         Node[] expectedCurrentNodes = {node2, node3};
         assertEqualsNoOrder(currentNodes, expectedCurrentNodes, "The new tokens should point to the following nodes.");
     }
@@ -89,12 +91,12 @@ public class ProcessTokenImplTest {
     public void testTakeSingleTransition()
     throws Exception {
 
-        List<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
+        Collection<ControlFlow> controlFlowList = new ArrayList<ControlFlow>();
         controlFlowList.add(controlFlowToTake);
-        List<Token> newTokens = token.navigateTo(controlFlowList);
+        Collection<Token> newTokens = token.navigateTo(controlFlowList);
         assertEquals(newTokens.size(), 1, "You should have a single process token.");
 
-        Token newToken = newTokens.get(0);
+        Token newToken = newTokens.iterator().next();
         assertEquals(newToken, token, "The token should be the same, no child instance or something like that.");
         assertEquals(newToken.getCurrentNode(), node2, "The token should have moved on.");
     }

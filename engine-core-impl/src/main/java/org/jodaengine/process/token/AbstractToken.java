@@ -1,8 +1,8 @@
 package org.jodaengine.process.token;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,6 +17,8 @@ import org.jodaengine.ext.exception.InstanceTerminationHandler;
 import org.jodaengine.ext.exception.LoggerExceptionHandler;
 import org.jodaengine.ext.handler.AbstractExceptionHandler;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.JoinListener;
+import org.jodaengine.ext.listener.SplitListener;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.navigator.NavigatorInside;
@@ -27,6 +29,8 @@ import org.jodaengine.resource.IdentityService;
 import org.jodaengine.resource.worklist.WorklistServiceIntern;
 import org.jodaengine.util.ServiceContext;
 import org.jodaengine.util.ServiceContextImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * AbstractToken class, which is used by other specific Token classes like the BPMN Token.
@@ -34,7 +38,9 @@ import org.jodaengine.util.ServiceContextImpl;
 public abstract class AbstractToken
 extends AbstractListenable<AbstractTokenListener>
 implements Token, ServiceContext {
-
+    
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    
     protected UUID id;
 
     protected Navigator navigator;
@@ -50,11 +56,16 @@ implements Token, ServiceContext {
     @JsonIgnore
     protected boolean suspandable;
 
-    protected List<Token> joinedTokens;
-    protected HashMap<String, Object> internalVariables;
-
+    protected Collection<Token> joinedTokens;
+    protected Map<String, Object> internalVariables;
+    
     @JsonIgnore
     protected AbstractExceptionHandler exceptionHandler;
+    
+    @JsonIgnore
+    protected Collection<SplitListener> splitListener;
+    @JsonIgnore
+    protected Collection<JoinListener> joinListener;
     
     protected Token parentToken;
 
@@ -90,9 +101,12 @@ implements Token, ServiceContext {
         //
         this.exceptionHandler = new LoggerExceptionHandler();
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
-
+        
         this.serviceContext = new ServiceContextImpl();
 
+        this.splitListener = new LinkedList<SplitListener>();
+        this.joinListener = new LinkedList<JoinListener>();
+        
         //
         // load available extensions, if an ExtensionService is provided
         //
@@ -124,19 +138,6 @@ implements Token, ServiceContext {
         return id;
     }
 
-    // @Override
-    // public boolean joinable() {
-    //
-    // return this.instance.getContext().allIncomingTransitionsSignaled(this.currentNode);
-    // }
-    //
-    // @Override
-    // public Token performJoin() {
-    //
-    // instance.getContext().removeIncomingTransitions(currentNode);
-    // return this;
-    // }
-
     @Override
     public AbstractProcessInstance getInstance() {
 
@@ -160,7 +161,7 @@ implements Token, ServiceContext {
      * 
      * @return the {@link Token}s that were produced during the join.
      */
-    protected List<Token> getJoinedTokens() {
+    protected Collection<Token> getJoinedTokens() {
 
         if (joinedTokens == null) {
             joinedTokens = new LinkedList<Token>();
@@ -182,7 +183,7 @@ implements Token, ServiceContext {
      * @param handlers
      *            the handlers to be added
      */
-    public void registerExceptionHandlers(@Nonnull List<AbstractExceptionHandler> handlers) {
+    public void registerExceptionHandlers(@Nonnull Collection<AbstractExceptionHandler> handlers) {
 
         //
         // add each handler at the beginning
@@ -191,6 +192,28 @@ implements Token, ServiceContext {
             handler.addLast(this.exceptionHandler);
             this.exceptionHandler = handler;
         }
+    }
+
+    /**
+     * Registers any number of {@link SplitListener}s.
+     * 
+     * @param listener
+     *            the listeners to be added
+     */
+    public void registerSplitListener(@Nonnull Collection<SplitListener> listener) {
+        
+        this.splitListener.addAll(listener);
+    }
+    
+    /**
+     * Registers any number of {@link JoinListener}s.
+     * 
+     * @param listener
+     *            the listeners to be added
+     */
+    public void registerJoinListener(@Nonnull Collection<JoinListener> listener) {
+        
+        this.joinListener.addAll(listener);
     }
 
     /**
@@ -209,15 +232,23 @@ implements Token, ServiceContext {
         if (extensionService == null) {
             return;
         }
-
+        
         //
         // get fresh listener and handler instances
         //
-        List<AbstractExceptionHandler> tokenExHandler = extensionService.getExtensions(AbstractExceptionHandler.class);
-        List<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
-
+        Collection<AbstractExceptionHandler> tokenExHandler
+            = extensionService.getExtensions(AbstractExceptionHandler.class);
+        Collection<AbstractTokenListener> tokenListener = extensionService.getExtensions(AbstractTokenListener.class);
+        Collection<SplitListener> tokenSplitListener = extensionService.getExtensions(SplitListener.class);
+        Collection<JoinListener> tokenJoinListener = extensionService.getExtensions(JoinListener.class);
+        
+        //
+        // register all of them
+        //
         registerListeners(tokenListener);
         registerExceptionHandlers(tokenExHandler);
+        registerSplitListener(tokenSplitListener);
+        registerJoinListener(tokenJoinListener);
     }
 
     /**

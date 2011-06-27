@@ -2,6 +2,7 @@ package org.jodaengine.node.behaviour;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.node.activity.NullActivity;
@@ -95,14 +96,14 @@ public class BpmnTakeAllBehaviourTest {
      * @throws Exception
      *             the exception
      */
-    private List<Token> executeSplitAndJoin(Token token)
+    private Collection<Token> executeSplitAndJoin(Token token)
     throws Exception {
 
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
 
-        List<Token> joinedTokens = incomingBehaviour.join(token);
+        Collection<Token> joinedTokens = incomingBehaviour.join(token);
 
         return outgoingBehaviour.split(joinedTokens);
     }

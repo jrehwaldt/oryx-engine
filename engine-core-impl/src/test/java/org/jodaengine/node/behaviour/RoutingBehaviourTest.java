@@ -2,7 +2,7 @@ package org.jodaengine.node.behaviour;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
@@ -53,7 +53,7 @@ public class RoutingBehaviourTest {
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
 
-        List<Token> joinedTokens = incomingBehaviour.join(token);
+        Collection<Token> joinedTokens = incomingBehaviour.join(token);
 
         try {
             outgoingBehaviour.split(joinedTokens);

@@ -1,6 +1,6 @@
 package org.jodaengine.process.token;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -70,7 +70,7 @@ public interface Token extends Identifiable<UUID>, Attributable {
      *            a list with redirections
      * @return newly created subprocesses
      */
-    List<Token> navigateTo(List<ControlFlow> controlFlowList);
+    Collection<Token> navigateTo(Collection<ControlFlow> controlFlowList);
 
     /**
      * Gets the process instance this token belongs to.

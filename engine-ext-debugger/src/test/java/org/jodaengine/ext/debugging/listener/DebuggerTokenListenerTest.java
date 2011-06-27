@@ -19,7 +19,7 @@ import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
 import org.jodaengine.ext.debugging.shared.DebuggerInstanceAttribute;
-import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
+import org.jodaengine.ext.debugging.util.DebuggerAttributeKeyProvider;
 import org.jodaengine.ext.debugging.util.DirectlyInterruptingInterrupter;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.navigator.Navigator;
@@ -121,7 +121,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         when(this.mockToken.getInstance()).thenReturn(this.mockInstance);
         when(this.mockToken.getCurrentNode()).thenReturn(this.node);
         when(this.mockToken.getCurrentActivityState()).thenReturn(this.state);
-        when(this.mockToken.getAttribute(AttributeKeyProvider.getAttributeKey())).thenReturn(
+        when(this.mockToken.getAttribute(DebuggerAttributeKeyProvider.getAttributeKey())).thenReturn(
             new DebuggerInstanceAttribute());
         when(this.mockInstance.getDefinition()).thenReturn(this.definition);
         when(this.mockDebuggerWithBreakpoint.getBreakpoints(this.mockInstance)).thenReturn(breakpoints);
@@ -461,7 +461,7 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
         //
         // we need a mock debugger instance here
         //
-        when(this.mockToken.getAttribute(AttributeKeyProvider.getAttributeKey())).thenReturn(
+        when(this.mockToken.getAttribute(DebuggerAttributeKeyProvider.getAttributeKey())).thenReturn(
             this.mockInstanceAttribute);
         
         //

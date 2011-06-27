@@ -3,7 +3,7 @@ package org.jodaengine.node.behaviour.petri;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.exception.NoValidPathException;
 import org.jodaengine.navigator.Navigator;
@@ -69,12 +69,12 @@ public class PlaceSplitTest {
    */
   @Test
   public void testMovedToken() throws NoValidPathException {
-      List<Token> tokens = new ArrayList<Token>();
-      List<Token> movedTokens = new ArrayList<Token>();
+      Collection<Token> tokens = new ArrayList<Token>();
+      Collection<Token> movedTokens = new ArrayList<Token>();
       tokens.add(token);
       
       movedTokens = token.getCurrentNode().getOutgoingBehaviour().split(tokens);
-      assertTrue(movedTokens.get(0).getCurrentNode() == node2, "The returned token should be moved."); 
+      assertTrue(movedTokens.iterator().next().getCurrentNode() == node2, "The returned token should be moved."); 
       
   }
   
@@ -91,8 +91,8 @@ public class PlaceSplitTest {
       node4.setAttribute("name", "4");
       node4.controlFlowTo(node2);
       
-      List<Token> tokens = new ArrayList<Token>();
-      List<Token> movedTokens = null;
+      Collection<Token> tokens = new ArrayList<Token>();
+      Collection<Token> movedTokens = null;
       tokens.add(token);
       
       movedTokens = token.getCurrentNode().getOutgoingBehaviour().split(tokens);

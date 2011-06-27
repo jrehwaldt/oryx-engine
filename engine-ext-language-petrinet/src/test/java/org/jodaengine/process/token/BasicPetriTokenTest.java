@@ -4,7 +4,7 @@ package org.jodaengine.process.token;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.jodaengine.navigator.Navigator;
 import org.jodaengine.node.activity.NullActivity;
@@ -15,8 +15,6 @@ import org.jodaengine.process.instance.ProcessInstance;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.structure.NodeImpl;
-import org.jodaengine.process.token.Token;
-import org.jodaengine.process.token.TokenBuilder;
 import org.jodaengine.process.token.builder.PetriNetTokenBuilder;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
@@ -87,10 +85,10 @@ public class BasicPetriTokenTest {
 
         Node currentNode = token.getCurrentNode();
         
-        List<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
+        Collection<Token> newTokens = token.navigateTo(currentNode.getOutgoingControlFlows());
         
         assertEquals(instance.getAssignedTokens().size(), 1, "There should be one moved token.");
-        assertEquals(newTokens.get(0).getCurrentNode(), petriTransition,
+        assertEquals(newTokens.iterator().next().getCurrentNode(), petriTransition,
             "The new token should point to the following node.");
     }
 

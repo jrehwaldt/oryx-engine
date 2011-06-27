@@ -1,12 +1,15 @@
 package org.jodaengine.ext.debugging.shared;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
@@ -14,6 +17,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.jodaengine.ext.debugging.api.DebuggerCommand;
 import org.jodaengine.process.structure.ControlFlow;
 import org.jodaengine.process.token.Token;
+import org.jodaengine.util.Identifiable;
 
 /**
  * This represents a container class, which will be available in the {@link Token}
@@ -23,50 +27,87 @@ import org.jodaengine.process.token.Token;
  * @since 2011-06-14
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public class DebuggerInstanceAttribute {
-    
+public class DebuggerInstanceAttribute implements Identifiable<UUID>, Serializable {
+    private static final long serialVersionUID = 1868155851442693148L;
+
     protected static final String ATTRIBUTE_KEY = "extension-debugger-attribute";
     
-    private DebuggerCommand activeCommand;
+    private UUID id;
+    
+    private Map<UUID, DebuggerCommand> commands;
     private List<PathHistoryEntry> pathHistory;
     
     /**
      * Creates a new instance.
      */
     public DebuggerInstanceAttribute() {
-        this.activeCommand = null;
+        this.id = UUID.randomUUID();
+        this.commands = new HashMap<UUID, DebuggerCommand>();
         this.pathHistory = new LinkedList<PathHistoryEntry>();
     }
     
+    @Override
+    public UUID getID() {
+        return this.id;
+    }
+    
     /**
-     * Clears the active {@link DebuggerCommand} and returns it's previous value.
+     * Gets the {@link DebuggerCommand} for the current {@link Token}.
      * 
-     * @return the active command (which was cleared)
+     * If no command for the current token is registered, a parental command is evaluated.
+     * 
+     * @param token the token, the command is bound to
+     * @return the command
      */
-    @JsonIgnore
-    public synchronized @Nullable DebuggerCommand clearActiveCommand() {
-        DebuggerCommand command = this.activeCommand;
-        this.activeCommand = null;
+    public synchronized @Nullable DebuggerCommand getCommand(Token token) {
+        
+        //
+        // get command for THIS token
+        //
+        DebuggerCommand command = this.commands.get(token.getID());
+//        
+//        //
+//        // if not provided, get from any parent
+//        //
+//        while (command == null && token.getParentToken() != null) {
+//            token = token.getParentToken();
+//            command = this.commands.get(token.getID());
+//        }
+        
         return command;
     }
     
     /**
-     * Sets the active {@link DebuggerCommand}.
+     * Sets the {@link DebuggerCommand} for the current {@link Token}.
      * 
-     * @param activeCommand the active command
+     * A command is also set for parental tokens, as it needs to be available after an AND-join.
+     * 
+     * @param token the token, this command is bound to
+     * @param command the command
      */
-    public synchronized void setActiveCommand(@Nullable DebuggerCommand activeCommand) {
-        this.activeCommand = activeCommand;
+    public synchronized void setCommand(@Nonnull Token token,
+                                        @Nullable DebuggerCommand command) {
+        
+        this.commands.put(token.getID(), command);
+        
+//        //
+//        // set the command for THIS token and for ALL parents
+//        //
+//        while (token.getParentToken() != null) {
+//            token = token.getParentToken();
+//            this.commands.put(token.getID(), command);
+//        }
     }
     
     /**
-     * Returns the active {@link DebuggerCommand}.
+     * Provides access to all commands registered for any token.
      * 
-     * @return the active command
+     * @return all registered commands
      */
     @JsonProperty
-    protected @Nullable DebuggerCommand getActiveCommand() {
-        return this.activeCommand;
+    public synchronized @Nonnull Map<UUID, DebuggerCommand> getCommands() {
+        
+        return this.commands;
     }
     
     /**
@@ -85,6 +126,7 @@ public class DebuggerInstanceAttribute {
      * 
      * @return a history of chosen paths
      */
+    @JsonProperty
     public @Nonnull List<PathHistoryEntry> getFullPath() {
         
         return this.pathHistory;
@@ -98,7 +140,16 @@ public class DebuggerInstanceAttribute {
      * @param token the {@link Token}, the attribute is related to
      * @return an attribute instance, creates a new one if none exists
      */
+//  * 
+//  * Important is, that the {@link DebuggerInstanceAttribute} is bound to the most parental token.
     public static @Nonnull DebuggerInstanceAttribute getAttribute(@Nonnull Token token) {
+        
+//        //
+//        // get the most parental token
+//        //
+//        while (token.getParentToken() != null) {
+//            token = token.getParentToken();
+//        }
         
         DebuggerInstanceAttribute attribute = (DebuggerInstanceAttribute) token.getAttribute(ATTRIBUTE_KEY);
         
@@ -112,17 +163,28 @@ public class DebuggerInstanceAttribute {
         
         return attribute;
     }
-//    
-//    /**
-//     * Returns a {@link DebuggerInstanceAttribute} instance related to the provided
-//     * {@link Token}. If none exists, null is returned.
-//     * 
-//     * @param token the {@link Token}, the attribute is related to
-//     * @return an attribute instance, null if none provided
-//     */
-//    public static @Nullable DebuggerInstanceAttribute getAttributeIfExists(@Nonnull Token token) {
-//        
-//        return (DebuggerInstanceAttribute) token.getAttribute(ATTRIBUTE_KEY);
-//    }
+    
+    /**
+     * Registered the provided attribute within a token.
+     * 
+     * @param attribute the attribute to register
+     * @param token the token
+     */
+    public static void setAttribute(@Nonnull DebuggerInstanceAttribute attribute,
+                                    @Nonnull Token token) {
+        
+        token.setAttribute(ATTRIBUTE_KEY, attribute);
+    }
+    
+    /**
+     * Returns true if a attribute is already registered for this token.
+     * 
+     * @param token the token
+     * @return true, if attribute is available
+     */
+    public static boolean hasAttribute(@Nonnull Token token) {
+        
+        return token.getAttributes().containsKey(ATTRIBUTE_KEY);
+    }
 }
 

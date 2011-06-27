@@ -1,6 +1,6 @@
 package org.jodaengine.ext.listener;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 
@@ -31,7 +31,7 @@ public interface Listenable<L extends Listener> {
      * @param listeners
      *            the listeners to register
      */
-    void registerListeners(@Nonnull List<L> listeners);
+    void registerListeners(@Nonnull Collection<L> listeners);
 
     /**
      * This method will deregister the given listener from the extension point. It will not be notified in the future.
@@ -46,5 +46,5 @@ public interface Listenable<L extends Listener> {
      * 
      * @return the listeners.
      */
-    @Nonnull List<L> getListeners();
+    @Nonnull Collection<L> getListeners();
 }

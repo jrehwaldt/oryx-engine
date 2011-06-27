@@ -17,7 +17,7 @@ import org.jodaengine.ext.debugging.api.Breakpoint;
 import org.jodaengine.ext.debugging.api.NodeBreakpoint;
 import org.jodaengine.ext.debugging.shared.BreakpointImpl;
 import org.jodaengine.ext.debugging.shared.DebuggerAttribute;
-import org.jodaengine.ext.debugging.util.AttributeKeyProvider;
+import org.jodaengine.ext.debugging.util.DebuggerAttributeKeyProvider;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.node.activity.ActivityState;
@@ -131,7 +131,7 @@ public class BreakpointServiceTest extends AbstractJodaEngineTest {
         //
         // do not provide a DebuggerAttribute
         //
-        when(this.mockDefinition.getAttribute(AttributeKeyProvider.getAttributeKey())).thenReturn(null);
+        when(this.mockDefinition.getAttribute(DebuggerAttributeKeyProvider.getAttributeKey())).thenReturn(null);
         Assert.assertNull(DebuggerAttribute.getAttributeIfExists(this.mockDefinition));
         
         //

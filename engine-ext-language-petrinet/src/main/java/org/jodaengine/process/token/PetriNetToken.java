@@ -2,6 +2,7 @@ package org.jodaengine.process.token;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -79,7 +80,7 @@ public class PetriNetToken extends AbstractToken {
        tokens.add(this);
        
        // Put the token on the transition after the place
-       List<Token> newTokens = currentNode.getOutgoingBehaviour().split(tokens);
+       Collection<Token> newTokens = currentNode.getOutgoingBehaviour().split(tokens);
        
        // If there are no possible options, the token execution has to be skipped.
        if (newTokens == null) {
@@ -90,7 +91,7 @@ public class PetriNetToken extends AbstractToken {
        }
        
        // During the split the token was moved to the next node...there we join, to consume other used tokens.
-       currentNode.getIncomingBehaviour().join(newTokens.get(0));
+       currentNode.getIncomingBehaviour().join(newTokens.iterator().next());
        
        // Now split at the Transition and put tokens on the following places.
        joinedTokens = currentNode.getOutgoingBehaviour().split(newTokens);
@@ -105,7 +106,7 @@ public class PetriNetToken extends AbstractToken {
     }
     
     @Override
-    public List<Token> navigateTo(List<ControlFlow> controlFlowList) {
+    public Collection<Token> navigateTo(Collection<ControlFlow> controlFlowList) {
 
         List<Token> tokensToNavigate = new ArrayList<Token>();
 

@@ -2,8 +2,8 @@ package org.jodaengine.node.behaviour;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import org.jodaengine.node.activity.NullActivity;
 import org.jodaengine.node.incomingbehaviour.IncomingBehaviour;
@@ -142,12 +142,12 @@ public class BpmnXorBehaviourTest {
      * @return the list
      * @throws Exception the exception
      */
-    private List<Token> executeSplitAndJoin(Token token) throws Exception {
+    private Collection<Token> executeSplitAndJoin(Token token) throws Exception {
         Node node = token.getCurrentNode();
         IncomingBehaviour incomingBehaviour = node.getIncomingBehaviour();
         OutgoingBehaviour outgoingBehaviour = node.getOutgoingBehaviour();
         
-        List<Token> joinedInstances = incomingBehaviour.join(token);
+        Collection<Token> joinedInstances = incomingBehaviour.join(token);
         
         return outgoingBehaviour.split(joinedInstances);
     }

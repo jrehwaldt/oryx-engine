@@ -1,6 +1,7 @@
 package org.jodaengine.ext;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
@@ -34,7 +35,7 @@ implements Listenable<IListener> {
     }
     
     @Override
-    public void registerListeners(List<IListener> listeners) {
+    public void registerListeners(Collection<IListener> listeners) {
         
         for (IListener listener: listeners) {
             registerListener(listener);
@@ -49,7 +50,7 @@ implements Listenable<IListener> {
     
     @JsonIgnore
     @Override
-    public List<IListener> getListeners() {
+    public Collection<IListener> getListeners() {
         return this.listeners;
     }
 }

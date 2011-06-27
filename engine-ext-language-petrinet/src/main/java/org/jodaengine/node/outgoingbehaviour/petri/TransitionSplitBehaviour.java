@@ -1,6 +1,7 @@
 package org.jodaengine.node.outgoingbehaviour.petri;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jodaengine.exception.NoValidPathException;
@@ -15,7 +16,7 @@ import org.jodaengine.process.token.Token;
 public class TransitionSplitBehaviour implements OutgoingBehaviour {
 
     @Override
-    public List<Token> split(List<Token> tokens)
+    public Collection<Token> split(Collection<Token> tokens)
     throws NoValidPathException {
         
         AbstractProcessInstance instance;

@@ -1,7 +1,7 @@
 package org.jodaengine.node.incomingbehaviour;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.jodaengine.process.structure.Node;
 import org.jodaengine.process.token.Token;
@@ -13,11 +13,9 @@ import org.jodaengine.process.token.Token;
 public class SimpleJoinBehaviour implements IncomingBehaviour {
 
     @Override
-    public List<Token> join(Token token) {
-
-        List<Token> joinedInstances = new ArrayList<Token>();
-        joinedInstances.add(token);
-        return joinedInstances;
+    public Collection<Token> join(Token token) {
+        
+        return Arrays.asList(token);
     }
 
     @Override
