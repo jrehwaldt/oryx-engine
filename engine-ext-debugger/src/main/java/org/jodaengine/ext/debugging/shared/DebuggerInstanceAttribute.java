@@ -118,6 +118,7 @@ public class DebuggerInstanceAttribute implements Identifiable<UUID>, Serializab
      */
     public void addPreviousPath(@Nonnull ControlFlow path,
                                 @Nonnull Token token) {
+        
         this.pathHistory.add(new PathHistoryEntry(path, token));
     }
     

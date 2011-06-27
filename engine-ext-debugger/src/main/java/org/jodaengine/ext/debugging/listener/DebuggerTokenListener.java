@@ -15,6 +15,7 @@ import org.jodaengine.ext.debugging.shared.DebuggerInstanceAttribute;
 import org.jodaengine.ext.listener.AbstractTokenListener;
 import org.jodaengine.ext.listener.token.ActivityLifecycleChangeEvent;
 import org.jodaengine.navigator.Navigator;
+import org.jodaengine.node.activity.ActivityState;
 import org.jodaengine.process.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,22 +56,22 @@ public class DebuggerTokenListener extends AbstractTokenListener {
         // get the token
         //
         Token token = event.getProcessToken();
-        DebuggerInstanceAttribute debuggerState = DebuggerInstanceAttribute.getAttribute(token);
+        DebuggerInstanceAttribute attribute = DebuggerInstanceAttribute.getAttribute(token);
         
         //
         // keep chosen path for history purposes
         //
-        debuggerState.addPreviousPath(token.getLastTakenControlFlow(), token);
-        
-        //
-        // TODO merke Parent token
-        //
+        if (ActivityState.INIT.equals(token.getCurrentActivityState())) {
+            if (token.getLastTakenControlFlow() != null) {
+                attribute.addPreviousPath(token.getLastTakenControlFlow(), token);
+            }
+        }
         
         //
         // consider the active command (it is removed!)
         // -> break or leave, if required (step over vs. resume)
         //
-        DebuggerCommand command = debuggerState.getCommand(token);
+        DebuggerCommand command = attribute.getCommand(token);
         if (command != null) {
             switch (command) {
                 case CONTINUE:
@@ -83,20 +84,20 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                     // any following breakpoints are ignored
                     // -> leave
                     //
-                    debuggerState.setCommand(token, DebuggerCommand.RESUME);
+//                    attribute.setCommand(token, DebuggerCommand.RESUME);
                     return;
                 case STEP_OVER:
                     //
                     // break, no matter if there is a breakpoint
                     // -> break and 
                     //
-                    interruptInstance(token, debuggerState, null);
+                    interruptInstance(token, attribute, null);
                     return;
                 case TERMINATE:
                     //
                     // we already canceled the instance
                     //
-                    debuggerState.setCommand(token, DebuggerCommand.TERMINATE);
+//                    attribute.setCommand(token, DebuggerCommand.TERMINATE);
                     return;
                 default:
                     //
@@ -128,7 +129,7 @@ public class DebuggerTokenListener extends AbstractTokenListener {
                 //
                 // break
                 //
-                interruptInstance(token, debuggerState, breakpoint);
+                interruptInstance(token, attribute, breakpoint);
                 
                 //
                 // ignore any subsequent breakpoints at this point and go on with the process instance

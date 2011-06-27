@@ -456,13 +456,14 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
      * Tests that an executed process keeps it's history.
      */
     @Test
-    public void testProcessExecutionHistoryIsKept() {
+    public void testProcessExecutionHistoryIsKeptForInitState() {
         
         //
         // we need a mock debugger instance here
         //
         when(this.mockToken.getAttribute(DebuggerAttributeKeyProvider.getAttributeKey())).thenReturn(
             this.mockInstanceAttribute);
+        when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.INIT);
         
         //
         // test that the history is stored
@@ -474,5 +475,15 @@ public class DebuggerTokenListenerTest extends AbstractJodaEngineTest {
             verify(this.mockInstanceAttribute, times(1)).addPreviousPath(
                 this.mockToken.getLastTakenControlFlow(), this.mockToken);
         }
+        
+        //
+        // do not store for e.g. COMPLETED state
+        //
+        when(this.mockToken.getCurrentActivityState()).thenReturn(ActivityState.COMPLETED);
+        ControlFlow flow = mock(ControlFlow.class);
+        when(this.mockToken.getLastTakenControlFlow()).thenReturn(flow);
+        this.listenerWithoutBreakpoint.stateChanged(this.event);
+        verify(this.mockInstanceAttribute, never()).addPreviousPath(
+            this.mockToken.getLastTakenControlFlow(), this.mockToken);
     }
 }

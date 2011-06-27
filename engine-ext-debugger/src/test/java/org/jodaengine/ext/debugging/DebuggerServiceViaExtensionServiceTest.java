@@ -17,9 +17,12 @@ import org.jodaengine.ext.debugging.listener.DebuggerBpmnXmlParseListener;
 import org.jodaengine.ext.debugging.listener.DebuggerDarHandler;
 import org.jodaengine.ext.debugging.listener.DebuggerRepositoryDeploymentListener;
 import org.jodaengine.ext.debugging.listener.DebuggerTokenListener;
+import org.jodaengine.ext.debugging.listener.SplitJoinListener;
 import org.jodaengine.ext.debugging.rest.DebuggerWebService;
 import org.jodaengine.ext.listener.AbstractTokenListener;
+import org.jodaengine.ext.listener.JoinListener;
 import org.jodaengine.ext.listener.RepositoryDeploymentListener;
+import org.jodaengine.ext.listener.SplitListener;
 import org.jodaengine.ext.service.ExtensionNotAvailableException;
 import org.jodaengine.ext.service.ExtensionService;
 import org.jodaengine.navigator.Navigator;
@@ -60,7 +63,8 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         Assert.assertTrue(this.extensionService.isExtensionAvailable(DebuggerService.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(BreakpointService.class));
         Assert.assertTrue(this.extensionService.isExtensionAvailable(ReferenceResolverService.class));
-    }
+        Assert.assertTrue(this.extensionService.isExtensionAvailable(SplitJoinListener.class));
+        }
     
     /**
      * Tests that the {@link DebuggerService} is successfully started by the {@link ExtensionService}.
@@ -163,7 +167,7 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
     }
     
     /**
-     * Tests that the listener for the {@link DebuggerBpmnXmlParseListener} is successfully provided.
+     * Tests that the handlers for the {@link DebuggerDarHandler} is successfully provided.
      */
     @Test
     public void testRequiredDarHandlerIsProvided() {
@@ -197,6 +201,22 @@ public class DebuggerServiceViaExtensionServiceTest extends AbstractJodaEngineTe
         
         Assert.assertFalse(listeners.isEmpty());
         Assert.assertTrue(isTypeContained(listeners, DebuggerTokenListener.class));
+    }
+    
+    /**
+     * Tests that the listener for the {@link SplitJoinListener} is successfully provided.
+     */
+    @Test
+    public void testRequiredSplitJoinListenerIsProvided() {
+        List<JoinListener> joinListeners = this.extensionService.getExtensions(JoinListener.class);
+        
+        Assert.assertFalse(joinListeners.isEmpty());
+        Assert.assertTrue(isTypeContained(joinListeners, SplitJoinListener.class));
+        
+        List<SplitListener> splitListeners = this.extensionService.getExtensions(SplitListener.class);
+        
+        Assert.assertFalse(splitListeners.isEmpty());
+        Assert.assertTrue(isTypeContained(splitListeners, SplitJoinListener.class));
     }
 
     

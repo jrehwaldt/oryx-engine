@@ -29,6 +29,7 @@ $().ready(function() {
         var instance = interruptedInstance.interruptedInstance;
         var definition = instance.definition;
         var definitionId = idToString(definition.id);
+        var debuggerInstanceData = interruptedInstance.interruptedToken.attributes['extension-debugger-attribute'];
         
         //
         // create a matched breakpoints cell
@@ -61,6 +62,7 @@ $().ready(function() {
         // store the definition and debugger data
         //
         interruptedInstanceRow.data('debugger-data', definition.attributes['extension-debugger-attribute']);
+        interruptedInstanceRow.data('debugger-instance-data', debuggerInstanceData);
         interruptedInstanceRow.data('definition', definition);
         interruptedInstanceRow.data('interrupted-instance', interruptedInstance);
         interruptedInstanceRow.data('instance', instance);

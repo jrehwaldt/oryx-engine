@@ -133,14 +133,11 @@ public class BpmnToken extends AbstractToken {
         }
         
         joinedTokens = null;
-        internalVariables = null;
     }
 
     @Override
     public void executeStep()
     throws JodaEngineException {
-
-        changeActivityState(ActivityState.READY);
         
         if (this.instance.isCancelled()) {
             // the following statement was already called, when instance.cancel() was called. Nevertheless, a token
@@ -148,6 +145,9 @@ public class BpmnToken extends AbstractToken {
             this.instance.getAssignedTokens().clear();
             return;
         }
+        
+        changeActivityState(ActivityState.READY);
+        
         try {
             
             this.joinedTokens = getCurrentNode().getIncomingBehaviour().join(this);

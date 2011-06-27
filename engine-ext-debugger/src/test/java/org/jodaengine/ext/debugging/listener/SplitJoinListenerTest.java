@@ -1,6 +1,5 @@
 package org.jodaengine.ext.debugging.listener;
 
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -101,12 +100,6 @@ public class SplitJoinListenerTest extends AbstractJodaEngineTest {
                     DebuggerInstanceAttributeKeyProvider.getAttributeKey(),
                     this.mockAttribute);
             }
-            
-            //
-            // the attribute is fetched at least once
-            //
-            verify(outgoingToken, atLeast(1)).getAttribute(
-                DebuggerInstanceAttributeKeyProvider.getAttributeKey());
             
             //
             // and the parent command was set for this token

@@ -67,9 +67,9 @@ public class DebuggerInstanceAttributeTest {
             for (short i = 0; i < TEST_HISTORY[j]; i++) {
                 PathHistoryEntry entry = history.get(i);
                 if (j % 2 == 0) {
-                    entry.getToken().equals(mockTokenEven);
+                    entry.getTokenID().equals(mockTokenEven.getID());
                 } else {
-                    entry.getToken().equals(mockTokenOdd);
+                    entry.getTokenID().equals(mockTokenOdd.getID());
                 }
             }
         }
