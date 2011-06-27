@@ -72,16 +72,32 @@ public class NodeImpl implements Node {
     }
 
     @Override
-    public ControlFlow controlFlowTo(Node node) {
+    public ControlFlow controlFlowTo(String id, Node node) {
 
         Condition condition = new HashMapCondition();
-        return createControlFlowWithCondition(node, condition);
+        return createControlFlowWithCondition(id, node, condition);
     }
+
+    @Override
+    public ControlFlow controlFlowTo(Node node) {
+
+        String generatedId = UUID.randomUUID().toString();
+        return controlFlowTo(generatedId, node);
+    }
+
+    @Override
+    public ControlFlow controlFlowToWithCondition(String id, Node node, Condition c) {
+
+        return createControlFlowWithCondition(id, node, c);
+    }
+    
+
 
     @Override
     public ControlFlow controlFlowToWithCondition(Node node, Condition c) {
 
-        return createControlFlowWithCondition(node, c);
+        String generatedId = UUID.randomUUID().toString();
+        return controlFlowToWithCondition(generatedId, node, c);
     }
 
     /**
@@ -92,9 +108,9 @@ public class NodeImpl implements Node {
      * @param c
      *            the condition
      */
-    private ControlFlow createControlFlowWithCondition(Node node, Condition c) {
+    private ControlFlow createControlFlowWithCondition(String id, Node node, Condition c) {
 
-        ControlFlow controlFlow = new ControlFlowImpl(this, node, c);
+        ControlFlow controlFlow = new ControlFlowImpl(id, this, node, c);
         this.outgoingControlFlows.add(controlFlow);
         List<ControlFlow> nextIncoming = node.getIncomingControlFlows();
         nextIncoming.add(controlFlow);

@@ -10,6 +10,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class ControlFlowImpl implements ControlFlow {
 
+    private final String id;
+    
     /** The destination. E.g. where does the arrow point to. */
     private final Node destination;
 
@@ -21,19 +23,19 @@ public class ControlFlowImpl implements ControlFlow {
 
     /**
      * Instantiates a new {@link ControlFlow} impl.
-     * 
-     * @param source
-     *            the source node
-     * @param destination
-     *            the destination node
-     * @param condition
-     *            the condition
+     *
+     * @param id the id of the control flow
+     * @param source the source node
+     * @param destination the destination node
+     * @param condition the condition
      */
     @JsonCreator
-    public ControlFlowImpl(@JsonProperty("source") Node source,
+    public ControlFlowImpl(@JsonProperty("id") String id,
+                           @JsonProperty("source") Node source,
                            @JsonProperty("destination") Node destination,
                            @JsonProperty("condition") Condition condition) {
         
+        this.id = id;
         this.source = source;
         this.destination = destination;
         this.condition = condition;
@@ -71,6 +73,12 @@ public class ControlFlowImpl implements ControlFlow {
     public Node getSource() {
 
         return source;
+    }
+
+    @Override
+    public String getID() {
+
+        return id;
     }
 
 }

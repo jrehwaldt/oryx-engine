@@ -14,6 +14,24 @@ import org.jodaengine.process.token.Token;
  */
 public class XORSplitBehaviour implements OutgoingBehaviour {
 
+    private String defaultFlowId;
+    
+    /**
+     * Creates a {@link XORSplitBehaviour} with a default flow, identified by the provided id.
+     *
+     * @param defaultFlowId the default flow id
+     */
+    public XORSplitBehaviour(String defaultFlowId) {
+        this.defaultFlowId = defaultFlowId;
+    }
+    
+    /**
+     * Contructor to use, if no default flow has been specified.
+     */
+    public XORSplitBehaviour() {
+        this.defaultFlowId = null;
+    }
+    
     /**
      * Split according to the {@link ControlFlow}s.
      * 
@@ -40,19 +58,42 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
         for (Token instance : tokens) {
             Node currentNode = instance.getCurrentNode();
             for (ControlFlow controlFlow : currentNode.getOutgoingControlFlows()) {
-                if (controlFlow.getCondition().evaluate(instance)) {
-                    controlFlowList.add(controlFlow);
-                    break;
+                // evaluate 
+                if (!controlFlow.getID().equals(defaultFlowId)) {
+                    if (controlFlow.getCondition().evaluate(instance)) {
+                        controlFlowList.add(controlFlow);
+                        break;
+                    }
                 }
             }
             
             if (controlFlowList.isEmpty()) {
+                if (defaultFlowId != null) {
+                    for (ControlFlow controlFlow : currentNode.getOutgoingControlFlows()) {
+                        if (controlFlow.getID().equals(defaultFlowId)) {
+                            controlFlowList.add(controlFlow);
+                        }
+                    }                   
+                }
+            }
+            
+            if (controlFlowList.size() == 0) {
+
                 throw new NoValidPathException();
             }
             
             tokensToNavigate = instance.navigateTo(controlFlowList);
         }
         return tokensToNavigate;
+    }
+    
+    /**
+     * Gets the default flow id. This method is for testing purposes only.
+     *
+     * @return the default flow id
+     */
+    public String getDefaultFlowID() {
+        return defaultFlowId;
     }
 
 }

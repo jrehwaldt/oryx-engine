@@ -62,21 +62,39 @@ public interface Node extends Identifiable<UUID>, Attributable {
 
     /**
      * Describes a new outgoing edge to the given node.
-     * 
-     * @param node
-     *            the node to which a new {@link ControlFlow} shall be established
+     *
+     * @param id the id of the control flow
+     * @param node the node to which a new {@link ControlFlow} shall be established
      * @return the created {@link ControlFlow}
+     */
+    ControlFlow controlFlowTo(String id, Node node);
+    
+    /**
+     * Describes a new outgoing edge to the given node with an auto-generated id.
+     *
+     * @param node the node
+     * @return the control flow
      */
     ControlFlow controlFlowTo(Node node);
 
     /**
-     * ControlFlow to with condition.
+     * Creates a {@link ControlFlow} with a condition.
      * 
+     * @param id the id of the control flow
      * @param node
      *            the destination
      * @param c
      *            the condition
      * @return the created {@link ControlFlow}
+     */
+    ControlFlow controlFlowToWithCondition(String id, Node node, Condition c);
+    
+    /**
+     * Creates a {@link ControlFlow} with a condition and an auto-generated id.
+     *
+     * @param node the node
+     * @param c the c
+     * @return the control flow
      */
     ControlFlow controlFlowToWithCondition(Node node, Condition c);
 

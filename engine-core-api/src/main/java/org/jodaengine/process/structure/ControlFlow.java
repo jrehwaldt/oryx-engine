@@ -7,12 +7,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+import org.jodaengine.util.Identifiable;
 
 /**
  * The Interface for control flows. Control flows are the edges between nodes.
  */
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@classifier")
-public interface ControlFlow {
+public interface ControlFlow extends Identifiable<String> {
 
     /**
      * Gets the condition that is connected to the control flow.

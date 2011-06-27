@@ -31,10 +31,21 @@ public interface ControlFlowBuilder {
     ControlFlowBuilder setCondition(Condition condition);
 
     /**
-     * Builds the {@link ControlFlow} and returns it.
+     * Builds the {@link ControlFlow} and returns it. Removes the specified control flow id after building as it is
+     * unlikely that it will be used twice.
      * 
      * @return a configured {@link ControlFlow}
      */
     @Nonnull
     ControlFlow buildControlFlow();
+
+    /**
+     * Sets the id of the {@link ControlFlow} to build.
+     * 
+     * @param id
+     *            the id to set
+     * @return this {@link ControlFlowBuilder} in order to keep on configuring it
+     */
+    @Nonnull
+    ControlFlowBuilder setId(String id);
 }

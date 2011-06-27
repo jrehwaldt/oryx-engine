@@ -14,6 +14,7 @@ public class ControlFlowBuilderImpl implements ControlFlowBuilder {
 
     private Condition condition;
     private Node source, destination;
+    private String id;
 
     @Override
     public ControlFlowBuilder controlFlowGoesFromTo(Node source, Node destination) {
@@ -37,7 +38,12 @@ public class ControlFlowBuilderImpl implements ControlFlowBuilder {
 
         checkingControlFlowConstraints();
 
-        return buildResultControlFlow();
+        ControlFlow result = buildResultControlFlow();
+        
+        // reset the id in order to not use it twice.
+        this.id = null;
+        
+        return result;
     }
 
     /**
@@ -50,9 +56,17 @@ public class ControlFlowBuilderImpl implements ControlFlowBuilder {
         ControlFlow resultControlFlow;
 
         if (condition != null) {
-            resultControlFlow = source.controlFlowToWithCondition(destination, condition);
+            if (id != null) {
+                resultControlFlow = source.controlFlowToWithCondition(id, destination, condition);
+            } else {
+                resultControlFlow = source.controlFlowToWithCondition(destination, condition);
+            }
         } else {
-            resultControlFlow = source.controlFlowTo(destination);
+            if (id != null) {
+                resultControlFlow = source.controlFlowTo(id, destination);
+            } else {
+                resultControlFlow = source.controlFlowTo(destination);
+            }
         }
 
         return resultControlFlow;
@@ -71,5 +85,12 @@ public class ControlFlowBuilderImpl implements ControlFlowBuilder {
             logger.error(errorMessage);
             throw new JodaEngineRuntimeException(errorMessage);
         }
+    }
+
+    @Override
+    public ControlFlowBuilder setId(String id) {
+
+        this.id = id;
+        return this;
     }
 }

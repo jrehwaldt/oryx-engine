@@ -126,7 +126,24 @@ public final class BpmnNodeFactory extends ControlFlowFactory {
     }
 
     /**
-     * Creates a {@link Node} that represents the BPMN-XOR-Gateway.
+     * Creates a {@link Node} that represents the BPMN-XOR-Gateway with a default flow.
+     * 
+     * The IncomingBehaviour is a {@link SimpleJoinBehaviour} and the OutgoingBehaviour is a {@link XORSplitBehaviour}.
+     * 
+     * @param builder
+     *            - a {@link ProcessDefinitionBuilder} that builds the {@link ProcessDefinition}
+     * @param defaultFlowID - the id of the default control flow
+     * @return a {@link Node} representing a BPMN-XOR-Gateway
+     */
+    public static Node createBpmnXorGatewayNode(BpmnProcessDefinitionBuilder builder, String defaultFlowID) {
+
+        NullActivity activityBehavior = new NullActivity();
+        return builder.getNodeBuilder().setIncomingBehaviour(new SimpleJoinBehaviour())
+        .setOutgoingBehaviour(new XORSplitBehaviour(defaultFlowID)).setActivityBehavior(activityBehavior).buildNode();
+    }
+    
+    /**
+     * Creates a {@link Node} that represents the BPMN-XOR-Gateway with no default flow.
      * 
      * The IncomingBehaviour is a {@link SimpleJoinBehaviour} and the OutgoingBehaviour is a {@link XORSplitBehaviour}.
      * 
