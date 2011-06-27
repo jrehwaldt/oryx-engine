@@ -105,9 +105,10 @@ implements Token, ServiceContext {
         this.exceptionHandler.setNext(new InstanceTerminationHandler());
         
         this.serviceContext = new ServiceContextImpl();
-
+        
         this.splitListener = new LinkedList<SplitListener>();
         this.joinListener = new LinkedList<JoinListener>();
+        this.tokenVariables = new HashMap<String, Object>();
         
         //
         // load available extensions, if an ExtensionService is provided
