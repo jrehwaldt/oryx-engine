@@ -29,6 +29,8 @@ import org.testng.Assert;
  * 
  */
 public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest {
+    
+    private static final String DEFAULT_FLOW_ID = "sid-2E69F4F8-D08A-4255-A6FB-721F1F566A74";
 
     public DeploySimpleGatewaysAsBpmnXmlTest() {
 
@@ -55,6 +57,8 @@ public class DeploySimpleGatewaysAsBpmnXmlTest extends AbstractBPMNDeployerTest 
         Assert.assertEquals(extractClass(nextNode), NullActivity.class);
         Assert.assertEquals(nextNode.getIncomingBehaviour().getClass(), SimpleJoinBehaviour.class);
         Assert.assertEquals(nextNode.getOutgoingBehaviour().getClass(), XORSplitBehaviour.class);
+        XORSplitBehaviour outgoingBehaviour = (XORSplitBehaviour) nextNode.getOutgoingBehaviour();
+        Assert.assertEquals(outgoingBehaviour.getDefaultFlowID(), DEFAULT_FLOW_ID);
         Assert.assertEquals(nextNode.getAttribute("name"), "Question?");
         Assert.assertEquals(nextNode.getOutgoingControlFlows().size(), 2);
         Node xorGatewayNode = nextNode;

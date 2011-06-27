@@ -365,7 +365,8 @@ public class BpmnXmlParse extends XmlParse {
      */
     protected void parseXorGateway(XmlElement xorGatewayElement) {
 
-        Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder);
+        Node exclusiveGatewayNode = BpmnNodeFactory.createBpmnXorGatewayNode(processBuilder,
+            xorGatewayElement.getAttribute("default"));
 
         parseGeneralInformation(xorGatewayElement, exclusiveGatewayNode);
 
@@ -529,8 +530,8 @@ public class BpmnXmlParse extends XmlParse {
 
                     String participantName = formalExpression.substring(USER_PREFIX.length(),
                         formalExpression.length() - 1);
-                    
-                    for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {                        
+
+                    for (AbstractParticipant participant : ServiceFactory.getIdentityService().getParticipants()) {
                         if (participant.getName().equals(participantName)) {
 
                             participantAssignedToTask = participant;
@@ -547,10 +548,9 @@ public class BpmnXmlParse extends XmlParse {
                 } else if (formalExpression.startsWith(GROUP_PREFIX)) {
                     AbstractRole roleAssignedToTask = null;
 
-                    String roleName = formalExpression.substring(GROUP_PREFIX.length(),
-                        formalExpression.length() - 1);
-                    
-                    for (AbstractRole role : ServiceFactory.getIdentityService().getRoles()) {                        
+                    String roleName = formalExpression.substring(GROUP_PREFIX.length(), formalExpression.length() - 1);
+
+                    for (AbstractRole role : ServiceFactory.getIdentityService().getRoles()) {
                         if (role.getName().equals(roleName)) {
                             roleAssignedToTask = role;
                         }

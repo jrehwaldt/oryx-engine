@@ -87,5 +87,14 @@ public class XORSplitBehaviour implements OutgoingBehaviour {
         }
         return controlFlowsToNavigate;
     }
+    
+    /**
+     * Gets the default flow id. This method is for testing purposes only.
+     *
+     * @return the default flow id
+     */
+    public String getDefaultFlowID() {
+        return defaultFlowId;
+    }
 
 }
